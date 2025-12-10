@@ -3,15 +3,15 @@ import json
 from logging import getLogger, StreamHandler, FileHandler, Formatter, ERROR
 
 class FileNotFound(Exception):
-    """Файл не знайдено"""
+    """File not found"""
 
 class FileCorrupted(Exception):
-    """Файл пошкоджено або нечитабельний"""
+    """The file is corrupt or unreadable."""
 
 def logger(exception_type, mode="console"):
     """
-    :exception_type: — тип винятку, який буде логуватися
-    :mode: — "console" або "file"
+    :exception_type: — the type of exception to be logged
+    :mode: — "console" or "file"
     """
 
     def decorator(func):
@@ -25,7 +25,7 @@ def logger(exception_type, mode="console"):
             elif mode == "file":
                 handler = FileHandler("log.txt", encoding="utf-8")
             else:
-                raise ValueError("Невідомий режим логування!")
+                raise ValueError("Unknown logging mode!")
 
             formatter = Formatter("%(asctime)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
@@ -35,7 +35,7 @@ def logger(exception_type, mode="console"):
                 return func(*args, **kwargs)
 
             except exception_type as e:
-                log.error(f"Помилка: {e}")
+                log.error(f"Error: {e}")
                 raise
 
         return wrapper
@@ -52,7 +52,7 @@ class JSONFileManager:
         if not os.path.exists(self.filepath):
             with open(self.filepath, "w", encoding="utf-8") as f:
                 f.write("{}")
-            raise FileNotFound(f"Файл '{self.filepath}' не існував — створено новий.")
+            raise FileNotFound(f"The file '{self.filepath}' did not exist - a new one was created.")
 
     @logger(FileCorrupted, mode="console")
     def read(self):
@@ -60,7 +60,7 @@ class JSONFileManager:
             with open(self.filepath, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception:
-            raise FileCorrupted("Не вдалося прочитати JSON-файл.")
+            raise FileCorrupted("Failed to read JSON file.")
 
     @logger(FileCorrupted, mode="file")
     def write(self, data: dict | list):
@@ -68,7 +68,7 @@ class JSONFileManager:
             with open(self.filepath, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
         except Exception:
-            raise FileCorrupted("Не вдалося записати у JSON-файл.")
+            raise FileCorrupted("Failed to write to JSON file.")
 
     @logger(FileCorrupted, mode="file")
     def append(self, new_data: dict | list):
@@ -83,22 +83,22 @@ class JSONFileManager:
             elif isinstance(content, dict) and isinstance(new_data, dict):
                 content.update(new_data)
             else:
-                raise FileCorrupted("Некоректний формат JSON для дописування.")
+                raise FileCorrupted("Incorrect JSON format for adding.")
 
             with open(self.filepath, "w", encoding="utf-8") as f:
                 json.dump(content, f, indent=4, ensure_ascii=False)
 
         except Exception:
-            raise FileCorrupted("Помилка при дописуванні в JSON-файл.")
+            raise FileCorrupted("Error while writing to JSON file.")
 
 try:
     fm = JSONFileManager("storage", "test.json")
 
     fm.write({"city": "Lviv", "numbers": [1, 2, 4, 3]})
-    print("Читання:", fm.read())
+    print("Reading:", fm.read())
 
     fm.append({"abc": 123})
-    print("Після додавання:", fm.read())
+    print("After adding:", fm.read())
 
 except Exception as e:
-    print("Виняток:", e)
+    print("Exception:", e)
