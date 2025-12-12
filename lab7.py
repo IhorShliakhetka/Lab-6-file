@@ -29,37 +29,6 @@ def product(values):
         result *= v
     return result
 
-if __name__ == "__main__":
-
-    m = [
-        [40, 72, 6, 92, 98],
-        [18, -33, -48, 81, 26],
-        [1, -4, 6, -2, 0],
-        [36, 9, 0, 4, 1],
-        [-55, 2, 66, 70, -3]
-    ]
-
-    print("Початкова матриця:")
-    for row in m:
-        print(row)
-
-    sorted_matrix = bubble_sort(m)
-
-    print("\nВідсортована матриця:")
-    for row in sorted_matrix:
-        print(row)
-
-    fi_values = [row_average(row) for row in sorted_matrix]
-
-    print("\nЗначення fi(aij) - середні значення рядків:")
-    for i, v in enumerate(fi_values):
-        print(f"fi(row {i+1}) = {v:.1f}")
-
-    F_value = product(fi_values)
-
-    print(f"\nF(fi(aij)) = {F_value:.1f}")
-
-print("\n---------ЗАВДАННЯ 2----------")
 
 class Node:
     def __init__(self, order_type, client):
@@ -102,6 +71,36 @@ class TaxiQueue:
             p = p.next
 
 if __name__ == "__main__":
+
+    m = [
+        [40, 72, 6, 92, 98],
+        [18, -33, -48, 81, 26],
+        [1, -4, 6, -2, 0],
+        [36, 9, 0, 4, 1],
+        [-55, 2, 66, 70, -3]
+    ]
+
+    print("Початкова матриця:")
+    for row in m:
+        print(row)
+
+    sorted_matrix = bubble_sort(m)
+
+    print("\nВідсортована матриця:")
+    for row in sorted_matrix:
+        print(row)
+
+    fi_values = [row_average(row) for row in sorted_matrix]
+
+    print("\nЗначення fi(aij) - середні значення рядків:")
+    for i, v in enumerate(fi_values):
+        print(f"fi(row {i+1}) = {v:.1f}")
+
+    F_value = product(fi_values)
+
+    print(f"\nF(fi(aij)) = {F_value:.1f}")
+
+    print("\n---------ЗАВДАННЯ 2----------")
 
     queue = TaxiQueue()
 
