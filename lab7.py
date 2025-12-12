@@ -29,35 +29,6 @@ def product(values):
         result *= v
     return result
 
-m = [
-    [40, 72, 6, 92, 98],
-    [18, -33, -48, 81, 26],
-    [1, -4, 6, -2, 0],
-    [36, 9, 0, 4, 1],
-    [-55, 2, 66, 70, -3]
-]
-
-print("Початкова матриця:")
-for row in m:
-    print(row)
-
-sorted_matrix = bubble_sort(m)
-
-print("\nВідсортована матриця:")
-for row in sorted_matrix:
-    print(row)
-
-fi_values = [row_average(row) for row in sorted_matrix]
-
-print("\nЗначення fi(aij) - середні значення рядків:")
-for i, v in enumerate(fi_values):
-    print(f"fi(row {i+1}) = {v:.1f}")
-
-F_value = product(fi_values)
-
-print(f"\nF(fi(aij)) = {F_value:.1f}")
-
-print("\n---------ЗАВДАННЯ 2----------")
 class Node:
     def __init__(self, order_type, client):
         self.order_type = order_type
@@ -92,25 +63,56 @@ class TaxiQueue:
         self.head = self.head.next
         return result.order_type, result.client
 
-
     def show(self):
         p = self.head
         while p:
             print(f"[{p.order_type}] {p.client}")
             p = p.next
 
-queue = TaxiQueue()
+if __name__ == "__main__":
 
-queue.add_order("normal", "Клієнт 1")
-queue.add_order("vip", "VIP 1")
-queue.add_order("normal", "Клієнт 2")
-queue.add_order("vip", "VIP 2")
+    m = [
+        [40, 72, 6, 92, 98],
+        [18, -33, -48, 81, 26],
+        [1, -4, 6, -2, 0],
+        [36, 9, 0, 4, 1],
+        [-55, 2, 66, 70, -3]
+    ]
 
-print("Поточна черга:")
-queue.show()
+    print("Початкова матриця:")
+    for row in m:
+        print(row)
 
-print("\nВодій отримав замовлення:")
-print(queue.get_order()) 
+    sorted_matrix = bubble_sort(m)
 
-print("\nЧерга після обслуговування:")
-queue.show()
+    print("\nВідсортована матриця:")
+    for row in sorted_matrix:
+        print(row)
+
+    fi_values = [row_average(row) for row in sorted_matrix]
+
+    print("\nЗначення fi(aij) - середні значення рядків:")
+    for i, v in enumerate(fi_values):
+        print(f"fi(row {i+1}) = {v:.1f}")
+
+    F_value = product(fi_values)
+
+    print(f"\nF(fi(aij)) = {F_value:.1f}")
+
+    print("\n---------ЗАВДАННЯ 2----------")
+
+    queue = TaxiQueue()
+
+    queue.add_order("normal", "Клієнт 1")
+    queue.add_order("vip", "VIP 1")
+    queue.add_order("normal", "Клієнт 2")
+    queue.add_order("vip", "VIP 2")
+
+    print("Поточна черга:")
+    queue.show()
+
+    print("\nВодій отримав замовлення:")
+    print(queue.get_order()) 
+
+    print("\nЧерга після обслуговування:")
+    queue.show()
