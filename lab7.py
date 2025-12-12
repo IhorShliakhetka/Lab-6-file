@@ -1,4 +1,5 @@
 def bubble_sort(matrix):
+    """Sorts each column of the matrix using bubble sort."""
     rows = len(matrix)
     cols = len(matrix[0])
 
@@ -21,9 +22,11 @@ def bubble_sort(matrix):
     return matrix
 
 def row_average(row):
+    """Returns the average value of a row."""
     return sum(row) / len(row)
 
 def product(values):
+    """Returns the product of all values in the list."""
     result = 1
     for v in values:
         result *= v
@@ -31,16 +34,19 @@ def product(values):
 
 
 class Node:
+    """Node of a singly linked list for the taxi queue."""
     def __init__(self, order_type, client):
         self.order_type = order_type
         self.client = client
         self.next = None
 
 class TaxiQueue:
+    """Taxi queue with priority handling for VIP orders."""
     def __init__(self):
         self.head = None
 
     def add_order(self, order_type, client):
+        """Adds a new order to the queue."""
         new_node = Node(order_type, client)
 
         if order_type == "vip":
@@ -57,6 +63,7 @@ class TaxiQueue:
             p.next = new_node
 
     def get_order(self):
+        """Returns the next order from the queue."""
         if not self.head:
             return None
 
@@ -65,6 +72,7 @@ class TaxiQueue:
         return result.order_type, result.client
 
     def show(self):
+        """Prints all orders in the queue."""
         p = self.head
         while p:
             print(f"[{p.order_type}] {p.client}")
@@ -117,3 +125,4 @@ if __name__ == "__main__":
 
     print("\nЧерга після обслуговування:")
     queue.show()
+
